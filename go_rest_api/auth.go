@@ -102,3 +102,17 @@ func CreateJWT(secret []byte, userId int64) (string, error) {
 
 	return tokenString, nil
 }
+
+func ComparePasswords(hashedPassword string, password string) bool {
+	byteHash := []byte(hashedPassword)
+	bytePassword := []byte(password)
+
+	err := bcrypt.CompareHashAndPassword(byteHash, bytePassword)
+
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+
+	return true
+}

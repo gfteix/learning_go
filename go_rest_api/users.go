@@ -78,11 +78,71 @@ func (s *UserService) handleUserRegister(w http.ResponseWriter, r *http.Request)
 }
 
 func (s *UserService) handleUserLogin(w http.ResponseWriter, r *http.Request) {
-	log.Fatalf("A")
-	// 1. Find user in db by email
-	// 2. Compare password with hashed password
-	// 3. Create JWT and set it in a cookie
-	// 4. Return JWT in response
+
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Error reading request body", http.StatusBadRequest)
+		return
+	}
+
+	defer r.Body.Close()
+
+	var payload *LoginPayload
+	err = json.Unmarshal(body, &payload)
+	if err != nil {
+		log.Println(err.Error())
+		WriteJson(w, http.StatusBadRequest, ErrorResponse{Error: "Invalid request payload"})
+		return
+	}
+
+	if err := validateLoginPayload(payload); err != nil {
+		log.Println(err.Error())
+		WriteJson(w, http.StatusBadRequest, ErrorResponse{Error: err.Error()})
+		return
+	}
+
+	if err != nil {
+		log.Println(err.Error())
+		WriteJson(w, http.StatusInternalServerError, ErrorResponse{Error: "Error creating user"})
+		return
+	}
+
+	user, err := s.store.GetUserByEmail(payload.Email)
+
+	if err != nil {
+		log.Println(err.Error())
+		WriteJson(w, http.StatusNotFound, ErrorResponse{Error: "User Not Found"})
+		return
+	}
+
+	isValid := ComparePasswords(user.Password, payload.Password)
+
+	if !isValid {
+		WriteJson(w, http.StatusBadRequest, ErrorResponse{Error: "Invalid Login"})
+		return
+	}
+
+	token, err := createAndSetAuthCookie(user.Id, w)
+	if err != nil {
+		log.Println(err.Error())
+		WriteJson(w, http.StatusInternalServerError, ErrorResponse{Error: "Error creating session"})
+		return
+	}
+
+	WriteJson(w, http.StatusOK, token)
+}
+
+func validateLoginPayload(payload *LoginPayload) error {
+	if payload.Email == "" {
+		return errEmailRequired
+	}
+
+	if payload.Password == "" {
+		return errPasswordRequired
+	}
+
+	return nil
 }
 
 func validateUserPayload(user *User) error {
