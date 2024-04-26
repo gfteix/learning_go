@@ -48,6 +48,7 @@ func (s *TaskService) handleCreateTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := validateTaskPayload(task); err != nil {
+		log.Println(task)
 		log.Println(err.Error())
 		WriteJson(w, http.StatusBadRequest, ErrorResponse{Error: err.Error()})
 		return

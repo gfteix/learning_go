@@ -10,6 +10,10 @@ func (m *MockStore) GetUserById(id string) (*User, error) {
 	return &User{}, nil
 }
 
+func (m *MockStore) GetUserByEmail(email string) (*User, error) {
+	return &User{}, nil
+}
+
 func (m *MockStore) CreateTask(t *Task) (*Task, error) {
 	return &Task{}, nil
 }
