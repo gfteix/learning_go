@@ -5,10 +5,19 @@ Learning how to build an rest api with go https://www.youtube.com/watch?v=2JNUmz
 - MySql 
 - Docker
 
-Docker command to start db
+How to run:
+- Install docker and docker compose
+- Run: `docker-compose up -d`
 
-`sudo docker run --name mysql_docker -p 33060:3306 -e MYSQL_ROOT_PASSWORD=mysql123 -e MYSQL_DATABASE=projectmanager -d mysql`
+Endpoints:
+
+- POST http://localhost:3000/api/v1/users/login
+- POST http://localhost:3000/api/v1/users/register
+- POST http://localhost:3000/api/v1/tasks
+- GET http://localhost:3000/api/v1/tasks/{id}
+- POST http://localhost:3000/api/v1/projects
+- GET http://localhost:3000/api/v1/projects/{id}
 
 TODO: 
-- Add Dockerfile and Docker compose
+- Stop using network_mode as host
 - Unit tests for users and projects services
