@@ -20,7 +20,7 @@ func initConfig() Config {
 	return Config{
 		DBUser:     getEnv("DB_USER", "root"),
 		DBPassword: getEnv("DB_PASSWORD", "mysql123"),
-		DBAddress:  fmt.Sprintf("%s:%s", getEnv("DB_HOST", "127.0.0.1"), getEnv("DB_PORT", "33060")),
+		DBAddress:  fmt.Sprintf("%s:%s", getEnv("DB_HOST", "mysql_docker"), getEnv("DB_PORT", "33060")),
 		DBName:     getEnv("DB_NAME", "projectmanager"),
 		JWTSecret:  getEnv("JWT_SECRET", "randomjwtsecretkey"),
 	}
