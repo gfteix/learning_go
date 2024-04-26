@@ -74,5 +74,26 @@ func TestCreateTask(t *testing.T) {
 }
 
 func TestGetTask(t *testing.T) {
+	mockedStore := &MockStore{}
+	service := NewTaskService(mockedStore)
 
+	t.Run("should return task", func(t *testing.T) {
+		id := "some_id"
+
+		req, err := http.NewRequest(http.MethodGet, "/tasks/"+id, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		rr := httptest.NewRecorder()
+		router := mux.NewRouter()
+
+		router.HandleFunc("/tasks/{id}", service.handleGetTask)
+
+		router.ServeHTTP(rr, req)
+
+		if rr.Code != http.StatusOK {
+			t.Errorf("expected status code %d, got %d", http.StatusOK, rr.Code)
+		}
+	})
 }
