@@ -4,17 +4,17 @@ services:
   mysql_docker:
     image: mysql
     container_name: mysql_docker
+    env_file: ./.env
     environment:
-      MYSQL_ROOT_PASSWORD: mysql123
-      MYSQL_DATABASE: projectmanager
+      MYSQL_ROOT_PASSWORD: $DB_PASSWORD
+      MYSQL_DATABASE: $DB_USER
     ports:
-      - "33060:3306"
+      - $DB_PORT:$DB_DOCKER_PORT
     restart: unless-stopped
 
   backend:
     build:
       context: .
-      dockerfile: Dockerfile.backend
+      dockerfile: Dockerfile
     depends_on:
       - mysql_docker
-    network_mode: "host"
