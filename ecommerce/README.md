@@ -11,3 +11,15 @@ Endpoints
 - POST /cart/checkout
 
 
+
+
+Docker command to build a mysql container
+
+```
+docker run -d \
+  --name mysql_docker \
+  -e MYSQL_ROOT_PASSWORD=mypassword \
+  -e MYSQL_DATABASE=ecom \
+  -p 3306:3306 \
+  mysql
+```

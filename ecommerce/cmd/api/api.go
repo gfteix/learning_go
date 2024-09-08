@@ -2,6 +2,8 @@ package api
 
 import (
 	"database/sql"
+	"ecommerce/services/user"
+	"log"
 	"net/http"
 )
 
@@ -21,5 +23,13 @@ func NewAPIServer(addr string, db *sql.DB) *APIServer {
 
 func (s *APIServer) Run() error {
 	mux := http.NewServeMux()
+
+	// how to create a subrouter for /users?
+	userHandler := user.NewHandler()
+	userHandler.RegisterRoutes(mux)
+
+	log.Printf("Listening on %v", s.addr)
+
 	return http.ListenAndServe(s.addr, mux)
+
 }
