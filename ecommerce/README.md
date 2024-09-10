@@ -1,5 +1,5 @@
 
-Learning how to create an ecommerce api with go https://youtu.be/7VLmLOiQ3ck
+Learning how to create an ecommerce api with go https://youtu.be/7VLmLOiQ3ck (31:24)
 
 
 Endpoints
