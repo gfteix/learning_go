@@ -57,3 +57,11 @@ func (s *Store) GetUserByEmail(email string) (*types.User, error) {
 
 	return u, nil
 }
+
+func (s *Store) GetUserById(id string) (*types.User, error) {
+	return nil, nil
+}
+
+func (s *Store) CreateUser(user types.User) error {
+	return nil
+}

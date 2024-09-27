@@ -25,7 +25,8 @@ func (s *APIServer) Run() error {
 	mux := http.NewServeMux()
 
 	// how to create a subrouter for /users?
-	userHandler := user.NewHandler()
+	userStore := user.NewStore(s.db)
+	userHandler := user.NewHandler(userStore)
 	userHandler.RegisterRoutes(mux)
 
 	log.Printf("Listening on %v", s.addr)
