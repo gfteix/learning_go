@@ -27,7 +27,7 @@ func (d Dictionary) Search(word string) (string, error) {
 	return val, nil
 }
 
-// An interesting property of maps is that you can modify them without passing as an address to it (e.g
+// An interesting property of maps is that you can modify them without passing as an address to it
 
 /*
 So when you pass a map to a function/method, you are indeed copying it, but just the pointer part, not the underlying data structure that contains the data.

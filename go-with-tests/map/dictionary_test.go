@@ -86,7 +86,7 @@ func TestDelete(t *testing.T) {
 func assertDefinition(t testing.TB, dictionary Dictionary, word, definition string) {
 	t.Helper()
 
-	got, err := dictionary.Search("test")
+	got, err := dictionary.Search(word)
 
 	if err != nil {
 		t.Fatal("should find added word:", err)
