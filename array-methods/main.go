@@ -16,8 +16,8 @@ func Filter[T any](slice []T, fn func(T) bool) []T {
 	return result
 }
 
-func Map[T any](slice []T, fn func(T) T) []T {
-	var result []T
+func Map[T, R any](slice []T, fn func(T) R) []R {
+	var result []R
 
 	for _, v := range slice {
 		result = append(result, fn(v))
