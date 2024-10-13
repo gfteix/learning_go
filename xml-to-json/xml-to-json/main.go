@@ -23,8 +23,13 @@ type Catalog struct {
 	} `xml:"book" json:"books"`
 }
 
+// Wrapper struct for JSON output
+type CatalogJson struct {
+	Catalog Catalog `json:"catalog"`
+}
+
 func main() {
-	file, err := os.Open("example.xml")
+	file, err := os.Open("source.xml")
 
 	if err != nil {
 		fmt.Printf("error while opening file %v", err)
@@ -44,7 +49,9 @@ func main() {
 		return
 	}
 
-	json, err := json.MarshalIndent(c, "", "    ")
+	catalog := &CatalogJson{Catalog: *c}
+
+	json, err := json.MarshalIndent(catalog, "", "    ")
 
 	if err != nil {
 		fmt.Printf("error while MarshalIndent %v", err)

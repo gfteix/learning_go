@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<catalog>
+   <book id="bk101">
+      <author>Dostoevsky, Fyodor</author>
+      <title>Crime and Punishment</title>
+      <genre>Philosophical Fiction</genre>
+      <price>12.99</price>
+      <publish_date>1866-01-01</publish_date>
+      <description>A psychological drama exploring guilt, morality, and redemption through the story of Raskolnikov, a man who commits murder.</description>
+   </book>
+   <book id="bk102">
+      <author>Tolstoy, Leo</author>
+      <title>War and Peace</title>
+      <genre>Historical Fiction</genre>
+      <price>14.99</price>
+      <publish_date>1869-01-01</publish_date>
+      <description>A sweeping epic that intertwines the fates of five aristocratic families during Napoleon’s invasion of Russia.</description>
+   </book>
+   <book id="bk103">
+      <author>Plato</author>
+      <title>The Republic</title>
+      <genre>Philosophy</genre>
+      <price>9.95</price>
+      <publish_date>380-01-01</publish_date>
+      <description>A Socratic dialogue concerning justice, the ideal city-state, and the education of rulers, introducing the allegory of the cave.</description>
+   </book>
+   <book id="bk104">
+      <author>Hesse, Hermann</author>
+      <title>Siddhartha</title>
+      <genre>Spiritual Fiction</genre>
+      <price>8.99</price>
+      <publish_date>1922-01-01</publish_date>
+      <description>The story of a young man's spiritual journey during the time of the Buddha, seeking enlightenment and self-discovery.</description>
+   </book>
+   <book id="bk105">
+      <author>Tolstoy, Leo</author>
+      <title>Anna Karenina</title>
+      <genre>Romantic Fiction</genre>
+      <price>11.99</price>
+      <publish_date>1877-01-01</publish_date>
+      <description>A tale of love, betrayal, and social constraints, revolving around the tragic love affair of Anna Karenina and Count Vronsky.</description>
+   </book>
+   <book id="bk106">
+      <author>Hesse, Hermann</author>
+      <title>Steppenwolf</title>
+      <genre>Existential Fiction</genre>
+      <price>10.50</price>
+      <publish_date>1927-01-01</publish_date>
+      <description>A profound exploration of an alienated man torn between his wild and civilized self, struggling to find meaning in life.</description>
+   </book>
+   <book id="bk107">
+      <author>Dostoevsky, Fyodor</author>
+      <title>The Brothers Karamazov</title>
+      <genre>Philosophical Fiction</genre>
+      <price>13.95</price>
+      <publish_date>1880-01-01</publish_date>
+      <description>A philosophical and spiritual inquiry into faith, free will, and morality, following the complex dynamics of the Karamazov family.</description>
+   </book>
+   <book id="bk108">
+      <author>Plato</author>
+      <title>Phaedrus</title>
+      <genre>Philosophy</genre>
+      <price>7.99</price>
+      <publish_date>370-01-01</publish_date>
+      <description>A dialogue that explores love, rhetoric, and the nature of the soul, providing insights into Plato's thoughts on the human condition.</description>
+   </book>
+   <book id="bk109">
+      <author>Tolstoy, Leo</author>
+      <title>The Death of Ivan Ilyich</title>
+      <genre>Philosophical Fiction</genre>
+      <price>6.95</price>
+      <publish_date>1886-01-01</publish_date>
+      <description>A novella that examines mortality and the meaning of life, following the existential crisis of a dying man.</description>
+   </book>
+   <book id="bk110">
+      <author>Hesse, Hermann</author>
+      <title>The Glass Bead Game</title>
+      <genre>Utopian Fiction</genre>
+      <price>15.99</price>
+      <publish_date>1943-01-01</publish_date>
+      <description>A complex intellectual novel set in a distant future, where a scholar contemplates the meaning of intellectualism and life.</description>
+   </book>
+   <book id="bk111">
+      <author>Plato</author>
+      <title>Symposium</title>
+      <genre>Philosophy</genre>
+      <price>8.50</price>
+      <publish_date>385-01-01</publish_date>
+      <description>A philosophical text in which various characters give speeches in praise of love, discussing the nature and purpose of human desire.</description>
+   </book>
+   <book id="bk112">
+      <author>Dostoevsky, Fyodor</author>
+      <title>The Idiot</title>
+      <genre>Psychological Fiction</genre>
+      <price>12.50</price>
+      <publish_date>1869-01-01</publish_date>
+      <description>Prince Myshkin, a kind and naive man, returns to Russia and becomes entangled in a web of greed, love, and betrayal.</description>
+   </book>
+</catalog>
