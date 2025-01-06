@@ -17,7 +17,7 @@ func NewStore(db *sql.DB) *Store {
 func scanRowIntoUser(rows *sql.Rows) (*types.User, error) {
 	user := new(types.User)
 
-	err := rows.Scan(
+	err := rows.Scan( // Scans data from the current row
 		&user.ID,
 		&user.FirstName,
 		&user.LastName,
@@ -43,8 +43,8 @@ func (s *Store) GetUserByEmail(email string) (*types.User, error) {
 
 	u := new(types.User)
 
-	for rows.Next() {
-		u, err = scanRowIntoUser(rows)
+	for rows.Next() { // Advances to the next row in the result set
+		u, err = scanRowIntoUser(rows) // Processes the current row pointed to by 'rows'
 
 		if err != nil {
 			return nil, err
