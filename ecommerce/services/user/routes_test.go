@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"ecommerce/types"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -76,7 +75,7 @@ func TestUserServiceHandlers(t *testing.T) {
 }
 
 func (m *mockUserStore) GetUserByEmail(email string) (*types.User, error) {
-	return nil, fmt.Errorf("user not found")
+	return nil, nil // returning no user
 }
 
 func (m *mockUserStore) GetUserById(id string) (*types.User, error) {

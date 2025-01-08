@@ -26,11 +26,41 @@ func (h *Handler) RegisterRoutes(router *http.ServeMux) {
 
 func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 	log.Print("handleLogin")
+
+	var payload types.LoginUserPayload
+
+	err := utils.ParseJson(r, &payload)
+
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	// validate the payload
+
+	if err := utils.Validate.Struct(payload); err != nil {
+		errors := err.(validator.ValidationErrors)
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid payload %v", errors))
+		return
+	}
+	// check if the user exists
+
+	user, err := h.store.GetUserByEmail(payload.Email)
+
+	if err != nil || user == nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("not found, invalid email or password"))
+		return
+	}
+
+	if !auth.ComparePasswords(user.Password, []byte(payload.Password)) {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("not found, invalid email or password"))
+		return
+	}
+
+	utils.WriteJSON(w, http.StatusOK, map[string]string{"token": ""})
 }
 
 func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
-	log.Print("handleRegister")
-
 	var payload types.RegisterUserPayload
 
 	err := utils.ParseJson(r, &payload)
@@ -81,5 +111,4 @@ func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 	}
 
 	utils.WriteJSON(w, http.StatusCreated, nil)
-
 }

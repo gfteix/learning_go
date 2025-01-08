@@ -22,9 +22,27 @@ docker run -d \
 
 `docker container stop mysql_docker`
 
--To remove the container:
+- To remove the container:
 
 `docker container remove mysql_docker`
+
+- To go inside the container:
+
+`docker exec -it mysql_docker mysql -uroot -p` (where “root” is the username for MySQL database.)
+
+Select the database
+
+`USE ecom`
+
+Get List of tables
+
+`show tables;`
+
+Run any query
+
+`SELECT * FROM users;`
+
+---
 
 ## Env variables
 

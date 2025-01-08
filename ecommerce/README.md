@@ -14,18 +14,6 @@ Endpoints
 
 ---
 
-Docker command to build a mysql container
-
-```
-docker run -d \
-  --name mysql_docker \
-  -e MYSQL_ROOT_PASSWORD=mypassword \
-  -e MYSQL_DATABASE=ecom \
-  -p 3306:3306 \
-  mysql
-```
-
----
 
 Examples:
 
@@ -39,5 +27,11 @@ curl -X POST http://localhost:8080/register \
   "lastName": "Doe",
   "email": "john.doe@example.com",
   "password": "password123"
-}'
+}' -v
 ```
+
+---
+
+To create a DB migration run `make migration name_of_the_migration`
+
+---

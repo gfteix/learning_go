@@ -13,11 +13,16 @@ type User struct {
 	CreatedAt time.Time `json:"createdAt"`
 }
 
+type LoginUserPayload struct {
+	Email    string `json:"email"  validate:"required,email"`
+	Password string `json:"password"  validate:"required,min=3,max=130"`
+}
+
 type RegisterUserPayload struct {
 	FirstName string `json:"firstName" validate:"required"`
 	LastName  string `json:"lastName"  validate:"required"`
 	Email     string `json:"email"  validate:"required,email"`
-	Password  string `json:"password"  validate:"required,min=3,max=130"`
+	Password  string `json:"password"  validate:"required"`
 }
 
 type UserStore interface {
