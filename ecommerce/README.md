@@ -30,6 +30,19 @@ curl -X POST http://localhost:8080/register \
 }' -v
 ```
 
+
+- /login
+
+```
+curl -X POST http://localhost:8080/login \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}' -v
+```
+
+
 ---
 
 To create a DB migration run `make migration name_of_the_migration`
