@@ -87,7 +87,8 @@ curl -X POST "http://localhost:8080/cart/checkout" \
 Update the {orderId} accordingly
 
 ```
-curl -X POST "http://localhost:8080/orders/{orderId}/status" \
+curl -X PATCH "http://localhost:8080/orders/3/status" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVkQXQiOjE3MzY1NDQ0MzcsInVzZXJJRCI6IjEifQ.RheIuNCQbv0qlAEo4ABco32gQCZriJkafbcu1Du3e1s" \
 -H "Content-Type: application/json" \
 -v -d '{
   "status": "cancelled"

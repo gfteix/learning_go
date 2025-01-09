@@ -1,29 +1,36 @@
 package order
 
 import (
+	"ecommerce/services/auth"
 	"ecommerce/types"
 	"ecommerce/utils"
 	"fmt"
 	"net/http"
 	"strconv"
 
-	"github.com/go-playground/validator"
+	"github.com/go-playground/validator/v10"
 )
 
 type Handler struct {
-	store types.OrderStore
+	store     types.OrderStore
+	userStore types.UserStore
 }
 
-func NewHandler(store types.OrderStore) *Handler {
-	return &Handler{store: store}
+func NewHandler(store types.OrderStore, userStore types.UserStore) *Handler {
+	return &Handler{
+		store:     store,
+		userStore: userStore,
+	}
 }
 
 func (h *Handler) RegisterRoutes(router *http.ServeMux) {
-	router.HandleFunc("GET /orders", h.handleGetOrders)
-	router.HandleFunc("PATCH /orders/{orderId}/status", h.handleStatusUpdate)
+	router.HandleFunc("GET /orders", auth.WithJWTAuth(h.handleGetOrders, h.userStore))
+	router.HandleFunc("PATCH /orders/{orderId}/status", auth.WithJWTAuth(h.handleStatusUpdate, h.userStore))
 }
 
 func (h *Handler) handleStatusUpdate(w http.ResponseWriter, r *http.Request) {
+	orderID, _ := strconv.Atoi(r.PathValue("orderId"))
+
 	var payload types.UpdateOrderStatusPayload
 
 	err := utils.ParseJson(r, &payload)
@@ -39,8 +46,6 @@ func (h *Handler) handleStatusUpdate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	orderID, _ := strconv.Atoi(payload.ID)
-
 	err = h.store.UpdateOrder(orderID, payload.Status)
 
 	if err != nil {
@@ -52,7 +57,10 @@ func (h *Handler) handleStatusUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) handleGetOrders(w http.ResponseWriter, r *http.Request) {
-	orders, err := h.store.GetOrdersByUserId(1)
+	context := r.Context()
+	userID := auth.GetUserIDFromContext(context)
+
+	orders, err := h.store.GetOrdersByUserId(userID)
 
 	if err != nil {
 		utils.WriteError(w, http.StatusInternalServerError, err)

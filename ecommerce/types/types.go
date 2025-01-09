@@ -38,7 +38,6 @@ type RegisterUserPayload struct {
 
 type UpdateOrderStatusPayload struct {
 	Status string `json:"status" validate:"required"`
-	ID     string `json:"id" validate:"required"`
 }
 
 type UserStore interface {

@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"ecommerce/types"
 	"fmt"
+	"log"
 )
 
 type Store struct {
@@ -126,7 +127,8 @@ func (s *Store) GetOrdersByUserId(userID int) ([]types.Order, error) {
 }
 
 func (s *Store) UpdateOrder(orderID int, status string) error {
-	_, err := s.db.Exec("UPDATE orders SET status = ? WHERE id = ?;`", status, orderID)
+	log.Printf("%v %v", orderID, status)
+	_, err := s.db.Exec("UPDATE orders SET status = ? WHERE id = ?;", status, orderID)
 
 	if err != nil {
 		return err
