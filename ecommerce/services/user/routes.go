@@ -21,8 +21,8 @@ func NewHandler(store types.UserStore) *Handler {
 }
 
 func (h *Handler) RegisterRoutes(router *http.ServeMux) {
-	router.HandleFunc("POST /login", h.handleLogin)
-	router.HandleFunc("POST /register", h.handleRegister)
+	router.HandleFunc("POST /users/login", h.handleLogin)
+	router.HandleFunc("POST /users/register", h.handleRegister)
 }
 
 func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
@@ -94,7 +94,7 @@ func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	hashedPassword, err := auth.HashPassowrd(payload.Password)
+	hashedPassword, err := auth.HashPassword(payload.Password)
 
 	if err != nil {
 		utils.WriteError(w, http.StatusInternalServerError, err)

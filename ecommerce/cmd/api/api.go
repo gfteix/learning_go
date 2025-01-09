@@ -2,6 +2,9 @@ package api
 
 import (
 	"database/sql"
+	"ecommerce/services/cart"
+	"ecommerce/services/order"
+	"ecommerce/services/product"
 	"ecommerce/services/user"
 	"log"
 	"net/http"
@@ -22,15 +25,22 @@ func NewAPIServer(addr string, db *sql.DB) *APIServer {
 // https://codewithflash.com/advanced-routing-with-go-122
 
 func (s *APIServer) Run() error {
-	mux := http.NewServeMux()
+	router := http.NewServeMux()
 
-	// how to create a subrouter for /users?
 	userStore := user.NewStore(s.db)
 	userHandler := user.NewHandler(userStore)
-	userHandler.RegisterRoutes(mux)
+	userHandler.RegisterRoutes(router)
+
+	productStore := product.NewStore(s.db)
+	productHandler := product.NewHandler(productStore)
+	productHandler.RegisterRoutes(router)
+
+	orderStore := order.NewStore(s.db)
+
+	cartHandler := cart.NewHandler(orderStore, productStore, userStore)
+	cartHandler.RegisterRoutes(router)
 
 	log.Printf("Listening on %v", s.addr)
 
-	return http.ListenAndServe(s.addr, mux)
-
+	return http.ListenAndServe(s.addr, router)
 }
