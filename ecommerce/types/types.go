@@ -62,6 +62,7 @@ type OrderStore interface {
 	CreateOrder(ctx context.Context, productMap map[int]Product, cart CartCheckoutPayload, userID int) (int, float64, error)
 	CreateOrderItem(OrderItem) error
 	GetOrdersByUserId(userID int) ([]Order, error)
+	GetOrder(id int) (*Order, error)
 	UpdateOrder(orderID int, status string) error
 }
 

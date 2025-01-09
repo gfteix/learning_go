@@ -105,7 +105,7 @@ func (s *Store) GetOrdersByUserId(userID int) ([]types.Order, error) {
 		return nil, nil
 	}
 
-	rows, err := s.db.Query("SELECT id, user_id, total, status, address_id, created_at FROM orders WHERE user_id = ? ", userID)
+	rows, err := s.db.Query("SELECT id, user_id, total, status, address_id, created_at FROM orders WHERE user_id = ?", userID)
 
 	if err != nil {
 		return nil, err
@@ -124,6 +124,30 @@ func (s *Store) GetOrdersByUserId(userID int) ([]types.Order, error) {
 	}
 
 	return orders, nil
+}
+
+func (s *Store) GetOrder(id int) (*types.Order, error) {
+	rows, err := s.db.Query("SELECT id, user_id, total, status, address_id, created_at FROM orders WHERE id = ?", id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	o := new(types.Order)
+
+	for rows.Next() { // Advances to the next row in the result set
+		o, err = scanRowIntoOrder(rows) // Processes the current row pointed to by 'rows'
+
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if o.ID == 0 {
+		return nil, nil
+	}
+
+	return o, nil
 }
 
 func (s *Store) UpdateOrder(orderID int, status string) error {

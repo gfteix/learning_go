@@ -46,6 +46,18 @@ func (h *Handler) handleStatusUpdate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	order, err := h.store.GetOrder(orderID)
+
+	if err != nil {
+		utils.WriteError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if order == nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid order id"))
+		return
+	}
+
 	err = h.store.UpdateOrder(orderID, payload.Status)
 
 	if err != nil {
