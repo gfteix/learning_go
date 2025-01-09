@@ -16,7 +16,7 @@ func NewStore(db *sql.DB) *Store {
 }
 
 func (s *Store) GetProducts() ([]types.Product, error) {
-	rows, err := s.db.Query("SELECT id, name, description, price, quantity, createdAt FROM products")
+	rows, err := s.db.Query("SELECT id, name, description, price, quantity, created_at FROM products")
 
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (s *Store) GetProductsByIDs(ids []int) ([]types.Product, error) {
 
 	placeholders := strings.TrimSuffix(strings.Repeat("?,", len(ids)), ",")
 
-	query := fmt.Sprintf("SELECT id, name, description, price, quantity, createdAt FROM products WHERE id IN (%s)", placeholders)
+	query := fmt.Sprintf("SELECT id, name, description, price, quantity, created_at FROM products WHERE id IN (%s)", placeholders)
 
 	args := make([]interface{}, len(ids))
 

@@ -2,6 +2,7 @@ package api
 
 import (
 	"database/sql"
+	"ecommerce/services/address"
 	"ecommerce/services/cart"
 	"ecommerce/services/order"
 	"ecommerce/services/product"
@@ -35,7 +36,13 @@ func (s *APIServer) Run() error {
 	productHandler := product.NewHandler(productStore)
 	productHandler.RegisterRoutes(router)
 
+	addressStore := address.NewStore(s.db)
+	addressHandler := address.NewHandler(addressStore)
+	addressHandler.RegisterRoutes(router)
+
 	orderStore := order.NewStore(s.db)
+	orderHandler := order.NewHandler(orderStore)
+	orderHandler.RegisterRoutes(router)
 
 	cartHandler := cart.NewHandler(orderStore, productStore, userStore)
 	cartHandler.RegisterRoutes(router)

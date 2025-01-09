@@ -78,7 +78,7 @@ func (m *mockUserStore) GetUserByEmail(email string) (*types.User, error) {
 	return nil, nil // returning no user
 }
 
-func (m *mockUserStore) GetUserById(id string) (*types.User, error) {
+func (m *mockUserStore) GetUserById(id int) (*types.User, error) {
 	return nil, nil
 }
 

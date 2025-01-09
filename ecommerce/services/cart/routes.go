@@ -29,9 +29,11 @@ func (h *Handler) RegisterRoutes(router *http.ServeMux) {
 }
 
 func (h *Handler) handleCheckout(w http.ResponseWriter, r *http.Request) {
-	userID := auth.GetUserIDFromContext(r.Context())
+	context := r.Context()
 
-	var cart types.CardCheckoutPayload
+	userID := auth.GetUserIDFromContext(context)
+
+	var cart types.CartCheckoutPayload
 
 	if err := utils.ParseJson(r, &cart); err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
@@ -44,7 +46,12 @@ func (h *Handler) handleCheckout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	productIDs, err := getCartItemsIDs(cart.Items)
+	if cart.AddressId == nil && cart.Address == nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("a valid address should be provided"))
+		return
+	}
+
+	productIDs, err := getCartProductIds(cart.Items)
 
 	if err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
@@ -58,7 +65,20 @@ func (h *Handler) handleCheckout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	orderID, totalPrice, err := h.createOrder(products, cart.Items, userID)
+	productMap := make(map[int]types.Product)
+
+	for _, product := range products {
+		productMap[product.ID] = product
+	}
+
+	err = validateStock(cart.Items, productMap)
+
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	orderID, totalPrice, err := h.store.CreateOrder(context, productMap, cart, userID)
 
 	if err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
@@ -69,4 +89,38 @@ func (h *Handler) handleCheckout(w http.ResponseWriter, r *http.Request) {
 		"total":    totalPrice,
 		"order_id": orderID,
 	})
+}
+
+func getCartProductIds(items []types.CartItemPayload) ([]int, error) {
+	productIds := make([]int, len(items))
+
+	for i, item := range items {
+		if item.Quantity <= 0 {
+			return nil, fmt.Errorf("invalid quantity for the product %d", item.ProductID)
+		}
+
+		productIds[i] = item.ProductID
+	}
+
+	return productIds, nil
+}
+
+func validateStock(cartItems []types.CartItemPayload, products map[int]types.Product) error {
+	if len(cartItems) == 0 {
+		return fmt.Errorf("cart is empty")
+	}
+
+	for _, item := range cartItems {
+		product, ok := products[item.ProductID]
+
+		if !ok {
+			return fmt.Errorf("product %d is not available in the store, please refresh your cart", item.ProductID)
+		}
+
+		if product.Quantity < item.Quantity {
+			return fmt.Errorf("product %d is not available in the quantity requested", item.ProductID)
+		}
+	}
+
+	return nil
 }

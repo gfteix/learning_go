@@ -16,11 +16,11 @@ Learning how to create an ecommerce api with GO https://youtu.be/7VLmLOiQ3ck
 
 ## Starting the server
 
-
+`make run`
 
 ## Executing the requests
 
-- /users/register
+- POST /users/register
 
 ```
 curl -X POST http://localhost:8080/users/register \
@@ -34,7 +34,7 @@ curl -X POST http://localhost:8080/users/register \
 ```
 
 
-- /users/login
+- POST /users/login
 
 ```
 curl -X POST http://localhost:8080/users/login \
@@ -46,31 +46,57 @@ curl -X POST http://localhost:8080/users/login \
 ```
 
 
-- /products
+- GET /products
 
 ```
 curl http://localhost:8080/products -v
 ```
 
 
-- /cart/checkout
+- POST /cart/checkout
 
 Updates the <your-auth-token> with the token returned from the /users/login
 
 ```
 curl -X POST "http://localhost:8080/cart/checkout" \
--H "Authorization: <your-auth-token>" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVkQXQiOjE3MzY1NDQ0MzcsInVzZXJJRCI6IjEifQ.RheIuNCQbv0qlAEo4ABco32gQCZriJkafbcu1Du3e1s" \
 -H "Content-Type: application/json" \
 -v -d '{
   "items": [
     {
-      "ProductID": 1,
-      "Quantity": 2
+      "productID": 1,
+      "quantity": 2
     },
     {
-      "ProductID": 2,
-      "Quantity": 1
+      "productID": 2,
+      "quantity": 1
     }
-  ]
+  ],
+  "address": {
+    "street": "street",
+    "country": "country",
+    "postalCode": "postalCode",
+    "city": "city",
+    "state": "state"
+  }
 }'
+```
+
+- PATCH /orders/{orderId}/status
+
+Update the {orderId} accordingly
+
+```
+curl -X POST "http://localhost:8080/orders/{orderId}/status" \
+-H "Content-Type: application/json" \
+-v -d '{
+  "status": "cancelled"
+}'
+```
+
+- GET /orders
+
+```
+curl "http://localhost:8080/orders" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVkQXQiOjE3MzY1NDQ0MzcsInVzZXJJRCI6IjEifQ.RheIuNCQbv0qlAEo4ABco32gQCZriJkafbcu1Du3e1s"
 ```
