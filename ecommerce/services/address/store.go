@@ -15,7 +15,7 @@ func NewStore(db *sql.DB) *Store {
 }
 
 func (s *Store) CreateAddress(address types.Address, userID int) (int, error) {
-	res, err := s.db.Exec("INSERT INTO addresses (user_id, street, city, state, postal_code, country) VALUES (?, ?, ?, ?, ?, ?)",
+	res, err := s.db.Exec("INSERT INTO addresses (user_id, street, city, address_state, postal_code, country) VALUES (?, ?, ?, ?, ?, ?)",
 		userID, address.Street, address.City, address.State, address.PostalCode, address.Country)
 
 	if err != nil {
@@ -35,7 +35,7 @@ func (s *Store) GetAddress(addressId int) (*types.Address, error) {
 		return nil, fmt.Errorf("address ID cannot be 0")
 	}
 
-	row := s.db.QueryRow("SELECT id, user_id, street, city, state, postal_code, country FROM addresses WHERE id = ?", addressId)
+	row := s.db.QueryRow("SELECT id, user_id, street, city, address_state, postal_code, country FROM addresses WHERE id = ?", addressId)
 
 	address := &types.Address{}
 	err := row.Scan(&address.ID, &address.UserID, &address.Street, &address.City, &address.State, &address.PostalCode, &address.Country)
@@ -55,7 +55,7 @@ func (s *Store) GetAddressesByUserID(userID int) ([]types.Address, error) {
 		return nil, fmt.Errorf("user ID cannot be 0")
 	}
 
-	rows, err := s.db.Query("SELECT id, user_id, street, city, state, postal_code, country FROM addresses WHERE user_id = ?", userID)
+	rows, err := s.db.Query("SELECT id, user_id, street, city, address_state, postal_code, country FROM addresses WHERE user_id = ?", userID)
 	if err != nil {
 		return nil, err
 	}

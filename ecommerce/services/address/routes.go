@@ -12,20 +12,30 @@ import (
 )
 
 type Handler struct {
-	store types.AddressStore
+	store     types.AddressStore
+	userStore types.UserStore
 }
 
-func NewHandler(store types.AddressStore) *Handler {
-	return &Handler{store: store}
+func NewHandler(store types.AddressStore, userStore types.UserStore) *Handler {
+	return &Handler{
+		store:     store,
+		userStore: userStore,
+	}
 }
 
 func (h *Handler) RegisterRoutes(router *http.ServeMux) {
-	router.HandleFunc("POST /users/{id}/addresses", h.handleCreateAddress)
-	router.HandleFunc("GET /users/{id}/addresses", h.handleGetAddresses)
+	router.HandleFunc("POST /users/{id}/addresses", auth.WithJWTAuth(h.handleCreateAddress, h.userStore))
+	router.HandleFunc("GET /users/{id}/addresses", auth.WithJWTAuth(h.handleGetAddresses, h.userStore))
 }
 
 func (h *Handler) handleCreateAddress(w http.ResponseWriter, r *http.Request) {
 	authUserId := auth.GetUserIDFromContext(r.Context())
+	pathUserID, _ := strconv.Atoi(r.PathValue("id"))
+
+	if pathUserID != authUserId {
+		utils.WriteError(w, http.StatusUnauthorized, fmt.Errorf("unauthorized"))
+		return
+	}
 
 	var payload types.AddressPayload
 

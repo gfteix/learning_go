@@ -52,6 +52,29 @@ curl -X POST http://localhost:8080/users/login \
 curl http://localhost:8080/products -v
 ```
 
+- GET /users/{id}/addresses
+
+Update the {id} accordingly
+
+```
+curl "http://localhost:8080/users/{id}/addresses" \
+-H "Authorization: Bearer <your-auth-token>"
+```
+
+- POST /users/{id}/addresses
+
+```
+curl -X POST "http://localhost:8080/users/{id}/addresses" \
+-H "Authorization: Bearer <your-auth-token>" \
+-H "Content-Type: application/json" \
+-v -d '{
+  "street": "street",
+  "country": "country",
+  "postalCode": "postalCode",
+  "city": "city",
+  "state": "state"
+}'
+```
 
 - POST /cart/checkout
 
@@ -59,7 +82,7 @@ Updates the <your-auth-token> with the token returned from the /users/login
 
 ```
 curl -X POST "http://localhost:8080/cart/checkout" \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVkQXQiOjE3MzY1NDQ0MzcsInVzZXJJRCI6IjEifQ.RheIuNCQbv0qlAEo4ABco32gQCZriJkafbcu1Du3e1s" \
+-H "Authorization: Bearer <your-auth-token>" \
 -H "Content-Type: application/json" \
 -v -d '{
   "items": [
@@ -88,7 +111,7 @@ Update the {orderId} accordingly
 
 ```
 curl -X PATCH "http://localhost:8080/orders/3/status" \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVkQXQiOjE3MzY1NDQ0MzcsInVzZXJJRCI6IjEifQ.RheIuNCQbv0qlAEo4ABco32gQCZriJkafbcu1Du3e1s" \
+-H "Authorization: Bearer <your-auth-token>" \
 -H "Content-Type: application/json" \
 -v -d '{
   "status": "cancelled"
@@ -99,5 +122,5 @@ curl -X PATCH "http://localhost:8080/orders/3/status" \
 
 ```
 curl "http://localhost:8080/orders" \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVkQXQiOjE3MzY1NDQ0MzcsInVzZXJJRCI6IjEifQ.RheIuNCQbv0qlAEo4ABco32gQCZriJkafbcu1Du3e1s"
+-H "Authorization: Bearer <your-auth-token>"
 ```
