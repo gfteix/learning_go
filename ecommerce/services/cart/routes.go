@@ -66,10 +66,11 @@ func (h *Handler) handleCheckout(w http.ResponseWriter, r *http.Request) {
 	}
 
 	productMap := make(map[int]types.Product)
-
 	for _, product := range products {
 		productMap[product.ID] = product
 	}
+
+	orderID, totalPrice, err := h.store.CreateOrder(context, productIDs, cart, userID)
 
 	err = validateStock(cart.Items, productMap)
 
@@ -77,8 +78,6 @@ func (h *Handler) handleCheckout(w http.ResponseWriter, r *http.Request) {
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-
-	orderID, totalPrice, err := h.store.CreateOrder(context, productMap, cart, userID)
 
 	if err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)

@@ -59,8 +59,7 @@ type AddressStore interface {
 }
 
 type OrderStore interface {
-	CreateOrder(ctx context.Context, productMap map[int]Product, cart CartCheckoutPayload, userID int) (int, float64, error)
-	CreateOrderItem(OrderItem) error
+	CreateOrder(ctx context.Context, productIDs []int, cart CartCheckoutPayload, userID int) (int, float64, error)
 	GetOrdersByUserId(userID int) ([]Order, error)
 	GetOrder(id int) (*Order, error)
 	UpdateOrder(orderID int, status string) error
@@ -102,7 +101,7 @@ type Order struct {
 	Status     string      `json:"status"`
 	AddressId  int         `json:"addressId"`
 	CreatedAt  time.Time   `json:"createdAt"`
-	OrderItems []OrderItem `json:"orderItems"`
+	OrderItems []OrderItem `json:"orderItems,omitempty"`
 }
 
 type OrderItem struct {
