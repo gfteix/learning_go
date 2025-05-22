@@ -2,7 +2,6 @@ package _select
 
 import (
 	"net/http"
-	"time"
 )
 
 /*
@@ -38,10 +37,4 @@ func ping(url string) chan struct{} {
 		close(ch)
 	}()
 	return ch
-}
-
-func measureResponseTime(url string) time.Duration {
-	start := time.Now()
-	http.Get(url)
-	return time.Since(start)
 }
